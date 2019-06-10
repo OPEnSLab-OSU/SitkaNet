@@ -7,11 +7,15 @@
 // Config has to be first has it hold all user specified options
 #include "config.h"
 
+// sleep functions
+#include "sleep_rtc.h"
+
 // Preamble includes any relevant subroutine files based 
 // on options specified in the above config
 #include "loom_preamble.h"
 
 int tipCount = 0; //Tipping Bucket counter variable
+
 
 // ================================================================ 
 // ===                           SETUP                          ===
@@ -19,11 +23,22 @@ int tipCount = 0; //Tipping Bucket counter variable
 void setup() 
 {
 	// LOOM_begin calls any relevant (based on config) LOOM device setup functions
-	Loom_begin();	
+	// Any rtc related functionality is handled by InitializeRTC()
+	Loom_begin();
+
+	countdown();
+
+
+	int rtcOK = InitializeRTC();
+	if(rtcOK < 0){
+		DEBUG_Println("error at InitializeRTC()");
+		return;
+	}	
 
 	// Any custom setup code
-  attachInterrupt(tipBucket_pin, tipBucket_ISR, FALLING);
+//   attachInterrupt(tipBucket_pin, tipBucket_ISR, FALLING);
 }
+
 
 // ================================================================ 
 // ===                        MAIN LOOP                         ===
@@ -31,34 +46,41 @@ void setup()
 void loop() 
 {
 	OSCBundle bndl;
-	// // --- LoRa Node Example ---
 
-	 measure_sensors();			// Read sensors, store data in sensor state struct
-	 package_data(&bndl);			// Copy sensor data from state to provided bundle
-	 append_to_bundle_key_value(&bndl, "Tip Count: ", tipCount);
-	 print_bundle(&bndl);
+	measure_sensors();			// Read sensors, store data in sensor state struct
+	package_data(&bndl);			// Copy sensor data from state to provided bundle
+	append_to_bundle_key_value(&bndl, "Tip Count: ", tipCount);
+	print_bundle(&bndl);
 
-	 //log_bundle(&bndl, SDCARD, "savefile.csv");
+	log_bundle(&bndl, SDCARD, "savefile.csv");
 	// send_bundle(&bndl, LORA);
 
-	 delay(1000);
+	delay(1000);
 
-	 additional_loop_checks();	// Miscellaneous checks
-	// // --- End Example ---
+	additional_loop_checks();	// Miscellaneous checks
+
+	// Set alarms (5 seconds here)
+	setRTCAlarm_Relative(0, 0, 5);
+	
+	// Go to sleep, upon wakeup continue with loop
+	sleep();
+
+	// tipBucket();
 }
 
 // ================================================================ 
 // ===                Interrupt Service Routines                ===
 // ================================================================
-void tipBucket_ISR(void)
-{
-  unsigned long lastInterruptTime = 0;
-  unsigned long interruptTime = millis();
-  if (interruptTime - lastInterruptTime > 200)
-  {
-    tipCount++;
-  }
-  lastInterruptTime = interruptTime;
+void tipBucket()
+{	
+	// wakeUp_RTC();
+	unsigned long lastInterruptTime = 0;
+	unsigned long interruptTime = millis();
+	if (interruptTime - lastInterruptTime > 200)
+  	{
+    	tipCount++;
+  	}
+  	lastInterruptTime = interruptTime;
 }
 
 // ================================================================ 

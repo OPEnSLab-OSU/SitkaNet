@@ -164,9 +164,9 @@ enum TimeUnits { SECONDS, MINUTES };
 // ===                    PRINTING MACROS                       === 
 // ================================================================
 // Macros for printing to Serial iff Loom Debug is enabled
-
-#define LOOM_DEBUG_Print(X)          (LOOM_DEBUG==0) ? :  Serial.print(X)
-#define LOOM_DEBUG_Println(X)        (LOOM_DEBUG==0) ? :  Serial.println(X)
+// ((MAX(a,b) < c) ?  (c) : (MAX(a,b)))
+#define LOOM_DEBUG_Print(X)          ((LOOM_DEBUG==0) ? (Serial.print("")) : (Serial.print(X)))
+#define LOOM_DEBUG_Println(X)        ((LOOM_DEBUG==0) ? (Serial.print("")) : (Serial.println(X)))
 #define LOOM_DEBUG_Print2(X,Y)       LOOM_DEBUG_Print(X); LOOM_DEBUG_Print(Y)
 #define LOOM_DEBUG_Println2(X,Y)     LOOM_DEBUG_Print(X); LOOM_DEBUG_Println(Y)
 #define LOOM_DEBUG_Print3(X,Y,Z)     LOOM_DEBUG_Print(X); LOOM_DEBUG_Print(Y); LOOM_DEBUG_Print(Z)
