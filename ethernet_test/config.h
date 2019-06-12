@@ -538,7 +538,7 @@
 	// #define init_spreadsheet_id "1Hv2oME5sjumUXv36GtFV1Q7I83xnXu-f-ZrxUNsXS_U"  // Luke Test Sheet
 	// #define init_spreadsheet_id "1FPwr8Q8QyP6-VbW1lp_fyFne38dbWQUhLGtNW7gVmMk"  // Luke Test Sheet 2
 	// #define init_spreadsheet_id "1wMNszrEmPt2jN1ZYDNJhO5lJHm4WcMZhzP6ck5omEOU"  // Ghana Proto Sheet
-  #define init_spreadsheet_id "1u0GeFqH-vAzu9dRmVUYT_pbvq7LtW6LKAtABmeFdq1E"  // SitkaNet Test
+  #define init_spreadsheet_id "1PNAIIiopyat3VyDHAKsh-n3vx97BgR57mkQ_1nnTKgI"  // SitkaNet Test
 
  
 
