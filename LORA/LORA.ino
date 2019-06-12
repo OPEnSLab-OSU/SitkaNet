@@ -4,18 +4,50 @@
 // ===            OTHER FILES AS SET IN CONFIG.H                ===
 // ================================================================
 
+//*** NOTE: This program uses a modified Adafruit_mma8451 source file. 
+//*** DO NOT USE the arduino provided source file.
+//*** Use the one in this directory, /Adaruit_MMA8451_library, and put in your arduino libraries directory
+// ** overwriting the existing files 
+
 // Config has to be first has it hold all user specified options
 #include "config.h"
 
 // sleep functions
-//#include "sleep_rtc.h"
+#include "sleep_rtc.h"
 
-int tipCount = 0; //Tipping Bucket counter variable
-
+// The mma8451 accelerometer is not managed by Loom
+#include "sitkaNet_mma8451.h"
 
 // Preamble includes any relevant subroutine files based 
 // on options specified in the above config
 #include "loom_preamble.h"
+
+int tipCount = 0; //Tipping Bucket counter variable
+#define OMG_PIN 5
+#define ALARM_PIN 6
+volatile bool alarmFlag = false;
+int omgCnt = 0;
+volatile bool omgFlag = false;
+
+
+// Declare a global MMA8451 object, does not rely on loom code
+MMA8451 mma;
+
+// ISR's for alarm and accelerometer
+void omgISR()
+{
+	detachInterrupt(digitalPinToInterrupt(OMG_PIN));
+	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
+	omgFlag = true;
+
+}
+
+void alarmISR()
+{
+	detachInterrupt(digitalPinToInterrupt(ALARM_PIN));
+	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
+	alarmFlag = true;
+}
 
 
 // ================================================================ 
@@ -24,16 +56,13 @@ int tipCount = 0; //Tipping Bucket counter variable
 void setup() 
 {
 	// LOOM_begin calls any relevant (based on config) LOOM device setup functions
-	Loom_begin();	
+	Loom_begin();
 
-//  countdown();
-//
-//
-//  int rtcOK = InitializeRTC();
-//  if(rtcOK < 0){
-//    DEBUG_Println("error at InitializeRTC()");
-//    return;
-//  } 
+	if (InitializeRTC(ALARM_PIN, OMG_PIN) < 0)
+		DEBUG_Println("error at InitializeRTC()");
+
+	// public method for establishing all MMA related parameters and settings
+	mma.setup();
 
 	// Any custom setup code
   pinMode(12, INPUT_PULLUP);
@@ -47,26 +76,48 @@ void loop()
 {
 	OSCBundle bndl;
 
+	// attach isr's to a specific pin
+	register_ISR(ALARM_PIN, alarmISR);
+	register_ISR(OMG_PIN, omgISR);
+
+	if (omgFlag == true)
+	{
+		Serial.println("Wake from Accelerometer");
+		omgFlag = false;
+		omgCnt++;
+		Serial.print("omgCnt: ");
+		Serial.println(omgCnt);
+	}
+
+	if (alarmFlag == true)
+	{
+		Serial.println("Wake from alarm");
+		alarmFlag = false;
+	}
+
 	// // --- LoRa Node Example ---
 
 	measure_sensors();			// Read sensors, store data in sensor state struct
 	package_data(&bndl);			// Copy sensor data from state to provided bundle
-  append_to_bundle_key_value(&bndl, "Tip_Ct", tipCount);
+  	append_to_bundle_key_value(&bndl, "Tip_Ct", tipCount);
 	
 	print_bundle(&bndl);
 
 	log_bundle(&bndl, SDCARD, "savefile.csv");
 	send_bundle(&bndl, LORA);
 
-//	delay(1000);
-
 	additional_loop_checks();	// Miscellaneous checks
 
-  // Set alarms (5 seconds here)
-//  setRTCAlarm_Relative(0, 0, 5);
-//
-//  // Go to sleep, upon wakeup continue with loop
-//  sleep();
+  	
+	// Go to sleep, if the accelerometer was not disturbed
+	// The acc. was getting triggered incorerctly upon first sleep cycle,
+	// so a simple counter is used to "ignore" the first acc. alarm.
+	// If the omgCnt == 2, then we know that the acc event was for real. 
+	if(omgCnt < 2){
+ 		setRTCAlarm_Relative(0, 0, 15);
+ 		sleep();
+	}
+
 	// // --- End Example ---
 
 
