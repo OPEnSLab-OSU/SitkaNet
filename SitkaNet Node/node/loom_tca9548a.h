@@ -70,6 +70,15 @@ byte possible_addresses[] = {0x00
 	#if is_as7265X == 1
 		, 0x49
 	#endif
+	#if is_as7265X == 1
+		, 0x49
+	#endif
+	#if is_as7265X == 1
+		, 0x49
+	#endif
+	// #if is_mma8451 == 1
+	// 	, 0x1D
+	// #endif
 }; 
 
 
@@ -260,10 +269,16 @@ void measure_sensor_data(uint8_t i2c_addr)
 				measure_as7265X();
 				return;
 		#endif
+		// #if is_mma8451 == 1
+		// 	case 0x1D:
+		// 		measure_mma8451();
+		// 		return;
+		// #endif
 
-		case 0x00: default:
-			Serial.println("This sensor is not currently supported by the Project LOOM sytem");
-	}
+			case 0x00:
+			default:
+				Serial.println("This sensor is not currently supported by the Project LOOM sytem");
+			}
 }
 
 
@@ -366,6 +381,11 @@ void package_sensor_data(uint8_t i2c_addr, OSCBundle *bndl, char packet_header_s
 				package_as7265X(bndl, packet_header_string, port);
 				return;
 		#endif
+		// #if is_mma8451 == 1
+		// 	case 0x1D:
+		// 		package_mma8451(bndl, packet_header_string, port);
+		// 		return;
+		// #endif
 
 		case 0x00: default:
 			Serial.println("This sensor is not currently supported by the Project LOOM sytem");
@@ -528,7 +548,10 @@ void send_sensors(OSCBundle *bndl, char packet_header_string[])
 					case 0x49:
 						msg.add("as7265X");			break;
 				#endif
-
+				// #if is_mma8451 == 1
+				// 	case 0x1D:
+				// 		msg.add("mma8451");			break;
+				// #endif
 				default:
 					msg.add("unknown"); 			break;
 			} // of switch
@@ -664,6 +687,11 @@ void setup_mux_sensors()
 					setup_as7265X();
 					break;
 			#endif
+			// #if is_mma8451 == 1
+			// 	case 0x1D:
+			// 		setup_mma8451();
+			// 		break;
+			// #endif
 		} // of switch
 	} // of for
 }

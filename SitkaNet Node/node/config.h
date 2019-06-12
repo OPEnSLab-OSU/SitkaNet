@@ -224,6 +224,7 @@
 #define is_mpu6050         0	// Accelerometer / Gyroscope
 #define is_lis3dh          0	// Accelerometer
 #define is_ms5803          0	// Atmospheric Pressure / Temperature Sensor
+// #define is_mma8451		   1	// Accelerometer
 
 
 // Other sensors
@@ -349,7 +350,8 @@
 	#define is_as7265X         0	// Spectral Sensor Triad [cannot be used with TSL2561 or AS726X]
 	#define is_fxas21002       0	// Gyroscope
 	#define is_fxos8700        0	// Accelerometer / Magnetometer
-	#define is_lis3dh          0  // Accelerometer
+	#define is_lis3dh          0    // Accelerometer
+	#define is_mma8451		   0	// Accelerometer
 	#define is_mb1232          0	// Sonar
 	#define is_mpu6050         0	// Accelerometer / Gyroscope (NOTE* I2C address conflicts with RTC if not manually changed) (much better supported on Ishield)
 	#define is_ms5803          1	// Pressure Sensor
@@ -776,6 +778,17 @@
 			#define lis3dh_0x19_name "LIS3DH_0x19"
 		#endif
 	#endif
+#endif
+
+#if is_mma8451 == 1
+	#define i2c_addr_mma8451_0x1D 1
+
+	// SitkaNet uses multiplexer, code below is not needed
+	// #if is_multiplexer != 1
+	// 	#if i2c_addr_mma8451_0x1D == 1
+	// 		#define _0x19_name "LIS3DH_0x19"
+	// 	#endif
+	// #endif
 #endif
 
 #if is_mb1232 == 1

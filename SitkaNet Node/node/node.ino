@@ -7,15 +7,36 @@
 // Config has to be first has it hold all user specified options
 #include "config.h"
 
-// sleep functions
+// custom sleep functions for use with DS3231
 #include "sleep_rtc.h"
+// The mma8451 accelerometer is not managed by Loom 
+#include "sitkaNet_mma8451.h"
 
 // Preamble includes any relevant subroutine files based 
 // on options specified in the above config
 #include "loom_preamble.h"
 
 int tipCount = 0; //Tipping Bucket counter variable
+#define OMG_PIN 5
+#define ALARM_PIN 6
+volatile bool alarmFlag = false;
+volatile bool omgFlag = false;
 
+// Declare a MMA8451 object, does not rely on loom code
+MMA8451 mma;
+
+
+void omgISR(){
+	detachInterrupt(digitalPinToInterrupt(OMG_PIN));
+	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
+	omgFlag = true;
+}
+
+void alarmISR(){
+	detachInterrupt(digitalPinToInterrupt(ALARM_PIN));
+	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
+	alarmFlag = true;
+}
 
 // ================================================================ 
 // ===                           SETUP                          ===
@@ -23,17 +44,14 @@ int tipCount = 0; //Tipping Bucket counter variable
 void setup() 
 {
 	// LOOM_begin calls any relevant (based on config) LOOM device setup functions
-	// Any rtc related functionality is handled by InitializeRTC()
+	// Any rtc related functionality is handled by sleep_rtc.h
 	Loom_begin();
+	
+	if(InitializeRTC(ALARM_PIN, OMG_PIN) < 0) DEBUG_Println("error at InitializeRTC()");
+	
+	mma.setup();
 
-	countdown();
-
-
-	int rtcOK = InitializeRTC();
-	if(rtcOK < 0){
-		DEBUG_Println("error at InitializeRTC()");
-		return;
-	}	
+	// countdown();
 
 	// Any custom setup code
 //   attachInterrupt(tipBucket_pin, tipBucket_ISR, FALLING);
@@ -46,21 +64,32 @@ void setup()
 void loop() 
 {
 	OSCBundle bndl;
+	register_ISR(ALARM_PIN, alarmISR);
+	register_ISR(OMG_PIN, omgISR);
 
-	measure_sensors();			// Read sensors, store data in sensor state struct
-	package_data(&bndl);			// Copy sensor data from state to provided bundle
-	append_to_bundle_key_value(&bndl, "Tip Count: ", tipCount);
-	print_bundle(&bndl);
+	if(omgFlag == true){
+		Serial.println("Wake from Accelerometer");
+		omgFlag = false;
+	}
 
-	log_bundle(&bndl, SDCARD, "savefile.csv");
+	if(alarmFlag == true){
+		Serial.println("Wake from alarm");
+		alarmFlag = false;
+	}
+
+	// measure_sensors();			// Read sensors, store data in sensor state struct
+	// package_data(&bndl);		// Copy sensor data from state to provided bundle
+	// append_to_bundle_key_value(&bndl, "Tip Count: ", tipCount);
+	// print_bundle(&bndl);
+
+	// log_bundle(&bndl, SDCARD, "savefile.csv");
 	// send_bundle(&bndl, LORA);
+	// delay(1000);
 
-	delay(1000);
+	// additional_loop_checks();	// Miscellaneous checks
 
-	additional_loop_checks();	// Miscellaneous checks
-
-	// Set alarms (5 seconds here)
-	setRTCAlarm_Relative(0, 0, 5);
+	// Set alarms (15 seconds here)
+	setRTCAlarm_Relative(0, 0, 30);
 	
 	// Go to sleep, upon wakeup continue with loop
 	sleep();
@@ -82,6 +111,7 @@ void tipBucket()
   	}
   	lastInterruptTime = interruptTime;
 }
+
 
 // ================================================================ 
 // ===                 High-Level API Functions                 === 

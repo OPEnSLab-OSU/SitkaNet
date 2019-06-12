@@ -8,7 +8,7 @@
 #include <EnableInterrupt.h>
 
 const int DELAY_COUNT = 5; 		// Number of seconds to wait before running loop()
-#define WAKE_PIN 6				// Attach DS3231 RTC Interrupt pin to this pin on Feather
+// #define WAKE_PIN 6				// Attach DS3231 RTC Interrupt pin to this pin on Feather
 
 #define DEBUG 1  //test to allow print to serial monitor
 
@@ -25,7 +25,7 @@ RTC_DS3231 RTC_DS;
 // ======= FUNCTION PROTOTYPES ======
 void sleep();
 void countdown();
-int InitializeRTC();
+int InitializeRTC(uint8_t, uint8_t);
 void setRTCAlarm();
 void setRTCAlarm_Relative(int hours, int minutes, int seconds);
 void clearRTCAlarm();
@@ -33,51 +33,48 @@ void print_DateTime(DateTime time);
 void wakeUp_RTC();
 void pre_sleep();
 void post_sleep();
+int register_ISR(uint8_t, void (*f)());
 
-void wakeUp_RTC()
-{
-	detachInterrupt(digitalPinToInterrupt(WAKE_PIN));
-}
+	// void wakeUp_RTC()
+	// {
+	// 	detachInterrupt(digitalPinToInterrupt(WAKE_PIN));
+	// }
 
-// ======= FUNCTIONS ======
+	// ======= FUNCTIONS ======
 
+	// Simple function to call to hide
+	// Pre/post aux functions
+	void sleep()
+	{
+		pre_sleep();
+		LowPower.standby(); // Go to sleep here
+		post_sleep();
+	}
 
-// Simple function to call to hide
-// Pre/post aux functions
-void sleep()
-{
-	pre_sleep();
-	LowPower.standby();			// Go to sleep here
-	post_sleep();
-}
+	// Prepare for sleep
+	// Disconnect Serial, attach interrupt, turn off LED
+	void pre_sleep()
+	{
+		DEBUG_Println("\nEntering STANDBY");
+		delay(50);
+		Serial.end();
+		USBDevice.detach();
 
+		// Don't know why this has to happen twice but it does
+		// attachInterrupt(digitalPinToInterrupt(WAKE_PIN), wakeUp_RTC, LOW);
+		// attachInterrupt(digitalPinToInterrupt(WAKE_PIN), wakeUp_RTC, LOW);
 
-// Prepare for sleep
-// Disconnect Serial, attach interrupt, turn off LED
-void pre_sleep()
-{
-	DEBUG_Println("\nEntering STANDBY");
-	delay(50);
-	Serial.end();
-	USBDevice.detach();
+		digitalWrite(LED_BUILTIN, LOW);
+	}
 
-	// Don't know why this has to happen twice but it does
-	// attachInterrupt(digitalPinToInterrupt(WAKE_PIN), wakeUp_RTC, LOW);
-	attachInterrupt(digitalPinToInterrupt(WAKE_PIN), wakeUp_RTC, LOW);
-	attachInterrupt(digitalPinToInterrupt(WAKE_PIN), wakeUp_RTC, LOW);
-
-	digitalWrite(LED_BUILTIN, LOW); 
-}
-
-
-// Post sleep actions that should happen
-// Clear alarms, reconnect Serial, turn on LED
-void post_sleep()
-{
-	clearRTCAlarm(); //prevent double trigger of alarm interrupt
-	USBDevice.attach();
-    digitalWrite(LED_BUILTIN, HIGH);
-	Serial.begin(115200);
+	// Post sleep actions that should happen
+	// Clear alarms, reconnect Serial, turn on LED
+	void post_sleep()
+	{
+		clearRTCAlarm(); //prevent double trigger of alarm interrupt
+		USBDevice.attach();
+		digitalWrite(LED_BUILTIN, HIGH);
+		Serial.begin(115200);
 	
 #if DEBUG == 1
 	// Give user 5s to reopen Serial monitor!
@@ -111,10 +108,11 @@ void clearRTCAlarm()
 */
 // Return: returns 0 upon success, -1 if error.
 
-int InitializeRTC()
-{
-	pinMode(WAKE_PIN, INPUT_PULLUP); // Pull up resistors required for Active-Low interrupts
 
+int InitializeRTC(uint8_t pin_a, uint8_t pin_b)
+{
+	pinMode(pin_a, INPUT_PULLUP); // Pull up resistors required for Active-Low interrupts
+	pinMode(pin_b, INPUT_PULLUP);
 	// RTC Timer settings here
 	if (! RTC_DS.begin()) {
 		DEBUG_Println("Couldn't find RTC");
@@ -134,6 +132,11 @@ int InitializeRTC()
 	DateTime now = RTC_DS.now();
 	RTC_DS.writeSqwPinMode(DS3231_OFF);
 	return 0;
+}
+
+int register_ISR(uint8_t pin, void (*f)()){
+	attachInterrupt(digitalPinToInterrupt(pin), f, LOW);
+	attachInterrupt(digitalPinToInterrupt(pin), f, LOW);
 }
 
 
