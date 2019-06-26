@@ -349,10 +349,10 @@
 	#define is_mb1232          0	// Sonar
 	#define is_mpu6050         0	// Accelerometer / Gyroscope (NOTE* I2C address conflicts with RTC if not manually changed) (much better supported on Ishield)
 	#define is_ms5803          1	// Pressure Sensor
-	#define is_sht31d          0	// Temperature / Humidity
+	#define is_sht31d          1	// Temperature / Humidity
 	#define is_tsl2561         0	// Lux Sensor [cannot be used with AS726X or AS7265X]
 	#define is_tsl2591         0	// Lux Sensor
-	#define is_zxgesturesensor 0	// ZX_Distance Sensor
+	#define is_zxgesturesensor 1	// ZX_Distance Sensor
 
 	#define is_button 		   0	// 1 to enable button
 #endif
@@ -440,7 +440,7 @@
 
 	#define RF95_FREQ      			915.0	// Hardware specific, Tx must match Rx
 
-	#define package_lora_rssi 		0		// 1 to add LoRa last RSSi to bundle build via package bundle; 0 to not
+	#define package_lora_rssi 		1		// 1 to add LoRa last RSSi to bundle build via package bundle; 0 to not
 
 
 

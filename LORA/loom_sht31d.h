@@ -106,19 +106,19 @@ bool setup_sht31d() {
 void package_sht31d(OSCBundle *bndl, char packet_header_string[], uint8_t port)
 {
 	char address_string[80];
-	sprintf(address_string, "%s%s%d%s", packet_header_string, "/p", port, "/sht31d");
+	sprintf(address_string, "%s%s%d%s", packet_header_string, "/port", port, "/sht31d");
 	
 	#if i2c_addr_sht31d_0x44 == 1
 		OSCMessage msg = OSCMessage(address_string);
-		msg.add("t").add(state_sht31d_0x44.temp);
-		msg.add("h").add(state_sht31d_0x44.humid);
+		msg.add("temp").add(state_sht31d_0x44.temp);
+		msg.add("humid").add(state_sht31d_0x44.humid);
 		
 		bndl->add(msg);
 	#endif
 	#if i2c_addr_sht31d_0x45 == 1
 		OSCMessage msg = OSCMessage(address_string);
-		msg.add("t").add(state_sht31d_0x45.temp);
-		msg.add("h").add(state_sht31d_0x45.humid);
+		msg.add("temp").add(state_sht31d_0x45.temp);
+		msg.add("humid").add(state_sht31d_0x45.humid);
 		
 		bndl->add(msg);
 	#endif
@@ -132,15 +132,15 @@ void package_sht31d(OSCBundle *bndl, char packet_header_string[])
 	char address_string[80];
 
 	#if i2c_addr_sht31d_0x44 == 1
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x44_name, "t");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x44_name, "temp");
 		bndl->add(address_string).add(state_sht31d_0x44.temp);
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x44_name, "h");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x44_name, "humid");
 		bndl->add(address_string ).add(state_sht31d_0x44.humid);
 	#endif
 	#if i2c_addr_sht31d_0x45 == 1
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x45_name, "t");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x45_name, "temp");
 		bndl->add(address_string).add(state_sht31d_0x45.temp);
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x45_name, "h");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", sht31d_0x45_name, "humid");
 		bndl->add(address_string ).add(state_sht31d_0x45.humid);
 	#endif
 }

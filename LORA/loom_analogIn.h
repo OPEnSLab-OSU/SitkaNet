@@ -202,8 +202,8 @@ void package_analog(OSCBundle *bndl, char packet_header_string[])
 	// 	sprintf(address_string, "%s%s", packet_header_string, "/pin_A5");
 	// 	bndl->add(address_string).add((int32_t)state_analog.a5);
 	// #endif
- //Serial.print("packet_header_string: ");
- //Serial.println(packet_header_string);
+ Serial.print("packet_header_string: ");
+ Serial.println(packet_header_string);
 	#if (is_analog_a0 == 1) 
 		sprintf(address_string, "%s%s", packet_header_string, "/A0");
 		bndl->add(address_string).add(state_analog.a0);

@@ -139,11 +139,10 @@ void lora_receive_bundle(OSCBundle *bndl)
 
 			// This is done just in case the compressed string
 			// uncompresses to more than 251 characters
-			// char larger_buf[384];
-			char larger_buf[1000];
+			char larger_buf[384];
 			memset(larger_buf, '\0', sizeof(larger_buf));
 			strcpy(larger_buf, (const char*)buf);
-      
+
 			convert_OSC_string_to_bundle((char*)larger_buf, bndl); 
 
 			// Apply filtering based on family and subnet

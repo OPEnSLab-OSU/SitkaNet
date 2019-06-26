@@ -293,8 +293,8 @@ void package_data(OSCBundle *bndl)
 	
 	// Get analog readings
 	#if (is_analog == 1) && (is_sapflow != 1)
-  //Serial.print("packet_header_string: ");
-  //Serial.println(configuration.packet_header_string);
+  Serial.print("packet_header_string: ");
+ Serial.println(configuration.packet_header_string);
 		package_analog(bndl, configuration.packet_header_string);
 	#endif
 

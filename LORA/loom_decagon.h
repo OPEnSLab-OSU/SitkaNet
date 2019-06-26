@@ -154,19 +154,19 @@ void measure_decagon()
 void package_decagon(OSCBundle * bndl, char packet_header_string[])
 {
   char addressString[255];
-//  sprintf(addressString, "%s%s", packet_header_string, "/DP");
+//  sprintf(addressString, "%s%s", packet_header_string, "/DielecPerm");
 //  bndl->add(addressString).add(dielec_p);
-//  sprintf(addressString, "%s%s", packet_header_string, "/T");
+//  sprintf(addressString, "%s%s", packet_header_string, "/Temp");
 //  bndl->add(addressString).add(temp);
 //  sprintf(addressString, "%s%s", packet_header_string, "/ElecCond");
 //  bndl->add(addressString).add(elec_c);
 //
 
-  sprintf(addressString, "%s%s", packet_header_string, "/T11");
+  sprintf(addressString, "%s%s", packet_header_string, "/Teros11");
 
   OSCMessage msg = OSCMessage(addressString);
-  msg.add("DP").add(dielec_p);
-  msg.add("t").add(temp);
+  msg.add("dielecPerm").add(dielec_p);
+  msg.add("temp").add(temp);
 
   bndl->add(msg);
 }

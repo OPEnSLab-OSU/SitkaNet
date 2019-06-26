@@ -135,17 +135,17 @@ bool setup_ms5803()
 void package_ms5803(OSCBundle *bndl, char packet_header_string[], uint8_t port)
 {
 	char address_string[255];
-	sprintf(address_string, "%s%s%d", packet_header_string, "/p", port);
+	sprintf(address_string, "%s%s%d%s", packet_header_string, "/port", port, "/ms5803");
 	
 	OSCMessage msg = OSCMessage(address_string);
 
 	#if i2c_addr_ms5803_0x76 == 1
-		msg.add("p").add(state_ms5803_0x76.pressure);
-		msg.add("t").add(state_ms5803_0x76.temp);
+		msg.add("pres").add(state_ms5803_0x76.pressure);
+		msg.add("temp").add(state_ms5803_0x76.temp);
 	#endif
 	#if i2c_addr_ms5803_0x77 == 1
-		msg.add("p").add(state_ms5803_0x77.pressure);
-		msg.add("t").add(state_ms5803_0x77.temp);
+		msg.add("pres").add(state_ms5803_0x77.pressure);
+		msg.add("temp").add(state_ms5803_0x77.temp);
 	#endif
 
 	bndl->add(msg);
@@ -157,16 +157,16 @@ void package_ms5803(OSCBundle *bndl, char packet_header_string[])
 	char address_string[255];
 
 	#if i2c_addr_ms5803_0x76 == 1
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x76_name, "_p");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x76_name, "_pressure");
 		bndl->add(address_string ).add(state_ms5803_0x76.pressure);
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x76_name, "_t");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x76_name, "_temp");
 		bndl->add(address_string).add(state_ms5803_0x76.temp);
 	#endif
 
 	#if i2c_addr_ms5803_0x77 == 1
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x77_name, "_p");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x77_name, "_pressure");
 		bndl->add(address_string).add(state_ms5803_0x77.pressure);
-		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x77_name, "_t");
+		sprintf(address_string, "%s%s%s%s", packet_header_string, "/", ms5803_0x77_name, "_temp");
 		bndl->add(address_string).add(state_ms5803_0x77.temp);
 	#endif
 }
