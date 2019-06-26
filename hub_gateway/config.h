@@ -39,7 +39,7 @@
 // ===                      SERIAL OPTIONS                      === 
 // ================================================================
 // --- Debugging --- 
-#define LOOM_DEBUG    1			// Set to 1 if you want Serial statements from various functions to print
+#define LOOM_DEBUG    0			// Set to 1 if you want Serial statements from various functions to print
 								// NOTE: Serial monitor must be opened for device to setup if this is enabled
 								//   Device will freeze if this in enabled and device does not get plugged into Serial
 								// LOOM_DEBUG_Print* are Serial prints that are removed if debugging is off
@@ -96,7 +96,7 @@
 // ================================================================ 
 // ===                  DATA LOGGING PLATFORMS                  === 
 // ================================================================
-#define is_pushingbox 1		// 1 to enable PushingBox  
+#define is_pushingbox 0		// 1 to enable PushingBox  
 
 
 // --- RTC Options ---
@@ -238,7 +238,7 @@
 	#endif
 
 
-#define is_max31856 	0
+#define is_max31856 	1
 
 
 // ================================================================ 
@@ -536,15 +536,14 @@
 	// Google Spreadsheet ID
 	// (found betweeen the "docs.google.com/spreadsheets/d/" and "/edit..." in the URL; looks like random string of characters)
 	// #define init_spreadsheet_id "1Hv2oME5sjumUXv36GtFV1Q7I83xnXu-f-ZrxUNsXS_U"  // Luke Test Sheet
-	// #define init_spreadsheet_id "1FPwr8Q8QyP6-VbW1lp_fyFne38dbWQUhLGtNW7gVmMk"  // Luke Test Sheet 2
+	#define init_spreadsheet_id "1FPwr8Q8QyP6-VbW1lp_fyFne38dbWQUhLGtNW7gVmMk"  // Luke Test Sheet 2
 	// #define init_spreadsheet_id "1wMNszrEmPt2jN1ZYDNJhO5lJHm4WcMZhzP6ck5omEOU"  // Ghana Proto Sheet
-   #define init_spreadsheet_id "1PNAIIiopyat3VyDHAKsh-n3vx97BgR57mkQ_1nnTKgI"  // SitkaNet
 
 	// Required by PushingBox, specific to each scenario
 	// Does not always need to change with different spreadsheets, only different PushingBox accounts
 	// #define device_id "v7ECCEF7A460E57A" 	// Luke
-	// #define device_id "v30C7C2EDE705157" 	// Luke Tests
-	 #define device_id "vBC42D81EEEB62D5" 	// Opens
+	#define device_id "v30C7C2EDE705157" 	// Luke Tests
+	// #define device_id "vBC42D81EEEB62D5" 	// Opens
 
 
 	// Google Spreadsheet Sheet/Tab. Sent as parameter to PushingBox/Google Scripts
