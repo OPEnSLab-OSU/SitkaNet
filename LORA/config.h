@@ -39,7 +39,7 @@
 // ===                      SERIAL OPTIONS                      === 
 // ================================================================
 // --- Debugging --- 
-#define LOOM_DEBUG    1			// Set to 1 if you want Serial statements from various functions to print
+#define LOOM_DEBUG    0			// Set to 1 if you want Serial statements from various functions to print
 								// NOTE: Serial monitor must be opened for device to setup if this is enabled
 								//   Device will freeze if this in enabled and device does not get plugged into Serial
 								// LOOM_DEBUG_Print* are Serial prints that are removed if debugging is off
@@ -440,7 +440,7 @@
 
 	#define RF95_FREQ      			915.0	// Hardware specific, Tx must match Rx
 
-	#define package_lora_rssi 		1		// 1 to add LoRa last RSSi to bundle build via package bundle; 0 to not
+	#define package_lora_rssi 		0		// 1 to add LoRa last RSSi to bundle build via package bundle; 0 to not
 
 
 

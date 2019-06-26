@@ -128,3 +128,9 @@ void measure_lis3dh()
 	state_lis3dh.accel_y = y;
 	state_lis3dh.accel_z = z;
 }
+
+
+
+
+
+

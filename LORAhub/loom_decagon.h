@@ -161,3 +161,7 @@ void package_decagon(OSCBundle * bndl, char packet_header_string[])
 	sprintf(addressString, "%s%s", packet_header_string, "/ElecCond");
 	bndl->add(addressString).add(elec_c);
 }
+
+
+
+

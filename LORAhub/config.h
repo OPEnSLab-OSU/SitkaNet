@@ -89,14 +89,14 @@
 #define is_wifi       0		// 1 to enable WiFi
 #define is_lora       1		// 1 to enable LoRa (cannot be used with nRF) (Further customization in advanced options)
 #define is_nrf        0		// 1 to enable nRF (cannot be used with LoRa) (Further customization in advanced options)
-#define is_ethernet   1		// 1 to enable Ethernet (a number of options below might auto enable this anyway though)
+#define is_ethernet   0		// 1 to enable Ethernet (a number of options below might auto enable this anyway though)
 #define is_fona       0		// 1 to enable cellular via Fona (808 version)
 
 
 // ================================================================ 
 // ===                  DATA LOGGING PLATFORMS                  === 
 // ================================================================
-#define is_pushingbox 1		// 1 to enable PushingBox  
+#define is_pushingbox 0		// 1 to enable PushingBox  
 
 
 // --- RTC Options ---
@@ -238,7 +238,7 @@
 	#endif
 
 
-#define is_max31856 	0
+#define is_max31856 	1
 
 
 // ================================================================ 
@@ -499,7 +499,7 @@
 
 	byte mac[] = {0x00, 0x23, 0x12, 0x12, 0xCE, 0x7D};    // MAC address of Luke's Ethernet port
 	
-	IPAddress ip(209,193,17,253); 						  // device's IP address  				try to make this a string, so #include can be move to ethernet file
+	IPAddress ip(128,193,56,138); 						  // device's IP address  				try to make this a string, so #include can be move to ethernet file
 #endif
 
 
@@ -536,15 +536,14 @@
 	// Google Spreadsheet ID
 	// (found betweeen the "docs.google.com/spreadsheets/d/" and "/edit..." in the URL; looks like random string of characters)
 	// #define init_spreadsheet_id "1Hv2oME5sjumUXv36GtFV1Q7I83xnXu-f-ZrxUNsXS_U"  // Luke Test Sheet
-	// #define init_spreadsheet_id "1FPwr8Q8QyP6-VbW1lp_fyFne38dbWQUhLGtNW7gVmMk"  // Luke Test Sheet 2
+	#define init_spreadsheet_id "1FPwr8Q8QyP6-VbW1lp_fyFne38dbWQUhLGtNW7gVmMk"  // Luke Test Sheet 2
 	// #define init_spreadsheet_id "1wMNszrEmPt2jN1ZYDNJhO5lJHm4WcMZhzP6ck5omEOU"  // Ghana Proto Sheet
-   #define init_spreadsheet_id "1PNAIIiopyat3VyDHAKsh-n3vx97BgR57mkQ_1nnTKgI"  // SitkaNet
 
 	// Required by PushingBox, specific to each scenario
 	// Does not always need to change with different spreadsheets, only different PushingBox accounts
 	// #define device_id "v7ECCEF7A460E57A" 	// Luke
-	// #define device_id "v30C7C2EDE705157" 	// Luke Tests
-	 #define device_id "vBC42D81EEEB62D5" 	// Opens
+	#define device_id "v30C7C2EDE705157" 	// Luke Tests
+	// #define device_id "vBC42D81EEEB62D5" 	// Opens
 
 
 	// Google Spreadsheet Sheet/Tab. Sent as parameter to PushingBox/Google Scripts

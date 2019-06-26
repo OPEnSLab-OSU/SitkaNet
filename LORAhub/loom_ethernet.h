@@ -53,12 +53,12 @@ bool setup_ethernet()
 
 	bool is_setup;
 	if (Ethernet.begin(mac) == 0) {
-		//LOOM_DEBUG_Println("Failed to configure Ethernet using DHCP");
+		LOOM_DEBUG_Println("Failed to configure Ethernet using DHCP");
 		// try to congifure using IP address instead of DHCP:
 		Ethernet.begin(mac, ip);
 	}
 	
-	if (ethernet_client.connect("www.pushingbox.com", 80)) {
+	if (ethernet_client.connect("www.google.com", 80)) {
 		is_setup = true;
 		LOOM_DEBUG_Println("Successfully connected to internet");
 		ethernet_client.stop();
@@ -177,3 +177,5 @@ void sendNTPpacket(const char * address)
 	Udp.write(packetBuffer, NTP_PACKET_SIZE);
 	Udp.endPacket();
 }
+
+

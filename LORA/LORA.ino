@@ -74,7 +74,6 @@ void setup()
 // ================================================================ 
 void loop() 
 {
-  digitalWrite(13, HIGH);
 	OSCBundle bndl;
 
 	// attach isr's to a specific pin
@@ -100,7 +99,7 @@ void loop()
 
 	measure_sensors();			// Read sensors, store data in sensor state struct
 	package_data(&bndl);			// Copy sensor data from state to provided bundle
-  append_to_bundle_key_value(&bndl, "Tip_Ct", tipCount);
+  	append_to_bundle_key_value(&bndl, "Tip_Ct", tipCount);
 	
 	print_bundle(&bndl);
 
@@ -115,8 +114,7 @@ void loop()
 	// so a simple counter is used to "ignore" the first acc. alarm.
 	// If the omgCnt == 2, then we know that the acc event was for real. 
 	if(omgCnt < 2){
-    digitalWrite(13, LOW); 
- 		setRTCAlarm_Relative(0, 0, 20);
+ 		setRTCAlarm_Relative(0, 0, 15);
  		sleep();
 	}
 

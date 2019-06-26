@@ -130,3 +130,8 @@ void measure_<module>()
 	// 		state_<module>.array_example[i] = ReadOtherValue
 	// }
 }
+
+
+
+
+

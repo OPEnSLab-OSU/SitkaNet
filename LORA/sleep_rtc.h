@@ -10,7 +10,7 @@
 const int DELAY_COUNT = 5; // Number of seconds to wait before running loop()
 // #define WAKE_PIN 6				// Attach DS3231 RTC Interrupt pin to this pin on Feather
 
-#define DEBUG 0 //test to allow print to serial monitor
+#define DEBUG 1 //test to allow print to serial monitor
 
 // Macros for printing to Serial if Loom Debug is enabled
 #define DEBUG_Print(X) (DEBUG == 0) ?: Serial.print(X)
@@ -77,7 +77,7 @@ void post_sleep()
 	clearRTCAlarm(); //prevent double trigger of alarm interrupt
 	USBDevice.attach();
 	digitalWrite(LED_BUILTIN, HIGH);
-	//Serial.begin(115200);
+	Serial.begin(115200);
 
 #if DEBUG == 1
 	// Give user 5s to reopen Serial monitor!
