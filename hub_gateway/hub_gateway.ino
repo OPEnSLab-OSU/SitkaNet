@@ -92,7 +92,7 @@ void loop()
 
 	receive_bundle(&bndl, LORA);		// Read sensors, store data in sensor state struct
 	print_bundle(&bndl);
-	log_bundle(&bndl, PUSHINGBOX);
+	// log_bundle(&bndl, PUSHINGBOX);
 
 	additional_loop_checks();		// Miscellaneous checks
 	// // --- End Example ---
