@@ -169,22 +169,16 @@ bool lora_send_bundle(OSCBundle *bndl, uint16_t destination)
 {
 	LOOM_DEBUG_Println2("Sending LoRa bundle to address: ", destination);
 
-
-  char longMsg[1000];
-  memset(longMsg, '\0', sizeof(longMsg));
-  convert_OSC_bundle_to_string(bndl, longMsg);
-
-   LOOM_DEBUG_Println(longMsg);
-   LOOM_DEBUG_Println2("long Message length: ", strlen(longMsg));
-   
-
+//  char longMsg[1000];
+//  memset(longMsg, '\0', sizeof(longMsg));
+//  convert_OSC_bundle_to_string(bndl, longMsg);
 
 	char message[LORA_MESSAGE_SIZE];
 	memset(message, '\0', sizeof(message));
 	convert_OSC_bundle_to_string(bndl, message);
 
-	 LOOM_DEBUG_Println(message);
-	 LOOM_DEBUG_Println2("Precompressed Message length: ", strlen(message));
+   LOOM_DEBUG_Println(message);
+   LOOM_DEBUG_Println2("compressed length: ", strlen(message));
 	 
 	bool is_sent = manager.sendtoWait((uint8_t*)message, strlen(message)+1, destination);
 

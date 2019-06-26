@@ -39,13 +39,12 @@ void omgISR()
 	detachInterrupt(digitalPinToInterrupt(OMG_PIN));
 	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
 	omgFlag = true;
-
 }
 
 void alarmISR()
 {
 	detachInterrupt(digitalPinToInterrupt(ALARM_PIN));
-	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
+	EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
 	alarmFlag = true;
 }
 
@@ -74,7 +73,6 @@ void setup()
 // ================================================================ 
 void loop() 
 {
-  digitalWrite(13, HIGH);
 	OSCBundle bndl;
 
 	// attach isr's to a specific pin
@@ -100,7 +98,7 @@ void loop()
 
 	measure_sensors();			// Read sensors, store data in sensor state struct
 	package_data(&bndl);			// Copy sensor data from state to provided bundle
-  append_to_bundle_key_value(&bndl, "Tip_Ct", tipCount);
+  append_to_bundle_key_value(&bndl, "Tip", tipCount);
 	
 	print_bundle(&bndl);
 
@@ -114,9 +112,8 @@ void loop()
 	// The acc. was getting triggered incorerctly upon first sleep cycle,
 	// so a simple counter is used to "ignore" the first acc. alarm.
 	// If the omgCnt == 2, then we know that the acc event was for real. 
-	if(omgCnt < 2){
-    digitalWrite(13, LOW); 
- 		setRTCAlarm_Relative(0, 0, 20);
+	if(omgCnt < 3){
+ 		setRTCAlarm_Relative(0, 5, 0);
  		sleep();
 	}
 

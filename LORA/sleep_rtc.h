@@ -77,7 +77,7 @@ void post_sleep()
 	clearRTCAlarm(); //prevent double trigger of alarm interrupt
 	USBDevice.attach();
 	digitalWrite(LED_BUILTIN, HIGH);
-	//Serial.begin(115200);
+	Serial.begin(115200);
 
 #if DEBUG == 1
 	// Give user 5s to reopen Serial monitor!

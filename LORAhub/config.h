@@ -39,7 +39,7 @@
 // ===                      SERIAL OPTIONS                      === 
 // ================================================================
 // --- Debugging --- 
-#define LOOM_DEBUG    1			// Set to 1 if you want Serial statements from various functions to print
+#define LOOM_DEBUG 1			// Set to 1 if you want Serial statements from various functions to print
 								// NOTE: Serial monitor must be opened for device to setup if this is enabled
 								//   Device will freeze if this in enabled and device does not get plugged into Serial
 								// LOOM_DEBUG_Print* are Serial prints that are removed if debugging is off
@@ -557,7 +557,7 @@
 		#define init_tab_id "HubSheet3" 	   // Defines tab if hub is defining tab instead of nodes
 	#else 					
 		// Use bundle source and below prefix to define tab ID
-		#define init_tab_id "Test3_"		   // Used as a prefix if node is being used to define tab
+		#define init_tab_id ""		   // Used as a prefix if node is being used to define tab
 	#endif	
 
 

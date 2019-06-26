@@ -206,27 +206,27 @@ void package_analog(OSCBundle *bndl, char packet_header_string[])
  Serial.println(packet_header_string);
 	#if (is_analog_a0 == 1) 
 		sprintf(address_string, "%s%s", packet_header_string, "/A0");
-		bndl->add(address_string).add(state_analog.a0);
+		bndl->add(address_string).add((int32_t)state_analog.a0);
 	#endif
 	#if (is_analog_a1 == 1)
 		sprintf(address_string, "%s%s", packet_header_string, "/A1");
-		bndl->add(address_string).add(state_analog.a1);
+		bndl->add(address_string).add((int32_t)state_analog.a1);
 	#endif
 	#if (is_analog_a2 == 1) 
 		sprintf(address_string, "%s%s", packet_header_string, "/A2");
-		bndl->add(address_string).add(state_analog.a2);
+		bndl->add(address_string).add((int32_t)state_analog.a2);
 	#endif
 	#if (is_analog_a3 == 1)
 		sprintf(address_string, "%s%s", packet_header_string, "/A3");
-		bndl->add(address_string).add(state_analog.a3);
+		bndl->add(address_string).add((int32_t)state_analog.a3);
 	#endif
 	#if (is_analog_a4 == 1) 
 		sprintf(address_string, "%s%s", packet_header_string, "/A4");
-		bndl->add(address_string).add(state_analog.a4);
+		bndl->add(address_string).add((int32_t)state_analog.a4);
 	#endif
 	#if (is_analog_a5 == 1)
 		sprintf(address_string, "%s%s", packet_header_string, "/A5");
-		bndl->add(address_string).add(state_analog.a5);
+		bndl->add(address_string).add((int32_t)state_analog.a5);
 	#endif
 }
 

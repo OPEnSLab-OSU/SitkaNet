@@ -106,19 +106,19 @@ bool setup_sht31d() {
 void package_sht31d(OSCBundle *bndl, char packet_header_string[], uint8_t port)
 {
 	char address_string[80];
-	sprintf(address_string, "%s%s%d%s", packet_header_string, "/port", port, "/sht31d");
+	sprintf(address_string, "%s%s%d", packet_header_string, "/p", port);
 	
 	#if i2c_addr_sht31d_0x44 == 1
 		OSCMessage msg = OSCMessage(address_string);
-		msg.add("temp").add(state_sht31d_0x44.temp);
-		msg.add("humid").add(state_sht31d_0x44.humid);
+		msg.add("t").add(state_sht31d_0x44.temp);
+		msg.add("h").add(state_sht31d_0x44.humid);
 		
 		bndl->add(msg);
 	#endif
 	#if i2c_addr_sht31d_0x45 == 1
 		OSCMessage msg = OSCMessage(address_string);
-		msg.add("temp").add(state_sht31d_0x45.temp);
-		msg.add("humid").add(state_sht31d_0x45.humid);
+		msg.add("t").add(state_sht31d_0x45.temp);
+		msg.add("h").add(state_sht31d_0x45.humid);
 		
 		bndl->add(msg);
 	#endif

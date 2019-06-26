@@ -162,11 +162,11 @@ void package_decagon(OSCBundle * bndl, char packet_header_string[])
 //  bndl->add(addressString).add(elec_c);
 //
 
-  sprintf(addressString, "%s%s", packet_header_string, "/Teros11");
+  sprintf(addressString, "%s%s", packet_header_string, "/T11");
 
   OSCMessage msg = OSCMessage(addressString);
-  msg.add("dielecPerm").add(dielec_p);
-  msg.add("temp").add(temp);
+  msg.add("dP").add(dielec_p);
+  msg.add("t").add(temp);
 
   bndl->add(msg);
 }
