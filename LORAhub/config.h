@@ -543,8 +543,8 @@
 	// Required by PushingBox, specific to each scenario
 	// Does not always need to change with different spreadsheets, only different PushingBox accounts
 	// #define device_id "v7ECCEF7A460E57A" 	// Luke
-	// #define device_id "v30C7C2EDE705157" 	// Luke Tests
-	 #define device_id "vBC42D81EEEB62D5" 	// Opens
+  // #define device_id "v30C7C2EDE705157" 	// Luke Tests
+	#define device_id "vBC42D81EEEB62D5" 	// Opens
 
 
 	// Google Spreadsheet Sheet/Tab. Sent as parameter to PushingBox/Google Scripts

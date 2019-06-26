@@ -158,9 +158,9 @@ void print_message(OSCMessage* msg, bool detail)
     }
     LOOM_DEBUG_Println();
   } else {
-    LOOM_DEBUG_Println2("Address: ", get_address_string(msg).c_str());
+    LOOM_DEBUG_Println2("Addr: ", get_address_string(msg).c_str());
     for (int i = 0; i < msg->size(); i++) {
-      LOOM_DEBUG_Print3("Value (", i, ") ");
+      LOOM_DEBUG_Print3("V (", i, ") ");
       switch (msg->getType(i)) {
         case 'f': LOOM_DEBUG_Println2("(f) ", msg->getFloat(i) ); break;
         case 'i': LOOM_DEBUG_Println2("(i) ", msg->getInt(i) );   break;
@@ -198,7 +198,7 @@ void print_bundle(OSCBundle *bndl)
   OSCMessage *msg;
 
   for (int i = 0; i < bndl->size(); i++) {
-    LOOM_DEBUG_Println2("Message: ", i);
+    LOOM_DEBUG_Println2("Mes: ", i);
     print_message(bndl->getOSCMessage(i));
   }
   Serial.println();

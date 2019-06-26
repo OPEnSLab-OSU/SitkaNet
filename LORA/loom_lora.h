@@ -170,12 +170,12 @@ bool lora_send_bundle(OSCBundle *bndl, uint16_t destination)
 	LOOM_DEBUG_Println2("Sending LoRa bundle to address: ", destination);
 
 
-  char longMsg[1000];
-  memset(longMsg, '\0', sizeof(longMsg));
-  convert_OSC_bundle_to_string(bndl, longMsg);
-
-   LOOM_DEBUG_Println(longMsg);
-   LOOM_DEBUG_Println2("long Message length: ", strlen(longMsg));
+//  char longMsg[1000];
+//  memset(longMsg, '\0', sizeof(longMsg));
+//  convert_OSC_bundle_to_string(bndl, longMsg);
+//
+//   LOOM_DEBUG_Println(longMsg);
+//   LOOM_DEBUG_Println2("long Message length: ", strlen(longMsg));
    
 
 

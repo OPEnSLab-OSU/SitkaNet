@@ -603,7 +603,8 @@ void convert_OSC_bundle_to_string(OSCBundle *bndl, char *osc_string)
 {	
 	// This is done in case the bundle converts to a string larger than
 	// 251 characters before compression
-	char larger_buf[384];
+	// char larger_buf[384];
+	char larger_buf[1000];
 	memset(larger_buf, '\0', sizeof(larger_buf));
 
 	original_convert_OSC_bundle_to_string(bndl, (char*)larger_buf);
