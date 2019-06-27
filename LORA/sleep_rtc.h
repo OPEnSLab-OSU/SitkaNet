@@ -8,7 +8,7 @@
 #include <EnableInterrupt.h>
 
 const int DELAY_COUNT = 5; // Number of seconds to wait before running loop()
-// #define WAKE_PIN 6				// Attach DS3231 RTC Interrupt pin to this pin on Feather
+ #define WAKE_PIN 6				// Attach DS3231 RTC Interrupt pin to this pin on Feather
 
 #define DEBUG 0 //test to allow print to serial monitor
 
@@ -64,8 +64,8 @@ void pre_sleep()
 	USBDevice.detach();
 
 	// Don't know why this has to happen twice but it does
-	// attachInterrupt(digitalPinToInterrupt(WAKE_PIN), wakeUp_RTC, LOW);
-	// attachInterrupt(digitalPinToInterrupt(WAKE_PIN), wakeUp_RTC, LOW);
+	 attachInterrupt(digitalPinToInterrupt(WAKE_PIN), alarmISR, LOW);
+	 attachInterrupt(digitalPinToInterrupt(WAKE_PIN), alarmISR, LOW);
 
 	digitalWrite(LED_BUILTIN, LOW);
 }

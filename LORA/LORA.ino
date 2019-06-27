@@ -11,8 +11,16 @@
 
 // Config has to be first has it hold all user specified options
 #include "config.h"
+#define ALARM_PIN 6
+volatile bool alarmFlag = false;
+void alarmISR()
+{
+  detachInterrupt(digitalPinToInterrupt(ALARM_PIN));
+  // EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
+  alarmFlag = true;
+}
 
-// sleep functions
+//// sleep functions
 #include "sleep_rtc.h"
 
 // The mma8451 accelerometer is not managed by Loom
@@ -24,8 +32,8 @@
 
 int tipCount = 0; //Tipping Bucket counter variable
 #define OMG_PIN 5
-#define ALARM_PIN 6
-volatile bool alarmFlag = false;
+//#define ALARM_PIN 6
+//volatile bool alarmFlag = false;
 int omgCnt = 0;
 volatile bool omgFlag = false;
 
@@ -39,14 +47,15 @@ void omgISR()
 	detachInterrupt(digitalPinToInterrupt(OMG_PIN));
 	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
 	omgFlag = true;
+
 }
 
-void alarmISR()
-{
-	detachInterrupt(digitalPinToInterrupt(ALARM_PIN));
-	EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
-	alarmFlag = true;
-}
+//void alarmISR()
+//{
+//	detachInterrupt(digitalPinToInterrupt(ALARM_PIN));
+//	// EIC->INTFLAG.reg = 0x01ff; // clear interrupt flags pending
+//	alarmFlag = true;
+//}
 
 
 // ================================================================ 
@@ -76,8 +85,8 @@ void loop()
 	OSCBundle bndl;
 
 	// attach isr's to a specific pin
-	register_ISR(ALARM_PIN, alarmISR);
-	register_ISR(OMG_PIN, omgISR);
+//	register_ISR(ALARM_PIN, alarmISR);
+//	register_ISR(OMG_PIN, omgISR);
 
 	if (omgFlag == true)
 	{
@@ -86,10 +95,13 @@ void loop()
 		omgCnt++;
 		Serial.print("omgCnt: ");
 		Serial.println(omgCnt);
+    register_ISR(OMG_PIN, omgISR);
+
 	}
 
 	if (alarmFlag == true)
 	{
+    clearRTCAlarm();
 		Serial.println("Wake from alarm");
 		alarmFlag = false;
 	}
@@ -98,12 +110,16 @@ void loop()
 
 	measure_sensors();			// Read sensors, store data in sensor state struct
 	package_data(&bndl);			// Copy sensor data from state to provided bundle
-  append_to_bundle_key_value(&bndl, "Tip", tipCount);
+  append_to_bundle_key_value(&bndl, "Tip_Ct", tipCount);
 	
 	print_bundle(&bndl);
 
 	log_bundle(&bndl, SDCARD, "savefile.csv");
 	send_bundle(&bndl, LORA);
+
+  //sleep_for(2, MINUTES, STANDBY);
+  setRTCAlarm_Relative(0, 5, 0);
+  sleep();
 
 	additional_loop_checks();	// Miscellaneous checks
 
@@ -112,10 +128,10 @@ void loop()
 	// The acc. was getting triggered incorerctly upon first sleep cycle,
 	// so a simple counter is used to "ignore" the first acc. alarm.
 	// If the omgCnt == 2, then we know that the acc event was for real. 
-	if(omgCnt < 3){
- 		setRTCAlarm_Relative(0, 5, 0);
- 		sleep();
-	}
+//	if(omgCnt < 2){
+// 		setRTCAlarm_Relative(0, 5, 0);
+// 		sleep();
+//	}
 
 	// // --- End Example ---
 

@@ -122,7 +122,7 @@
 
 	// Try to set time from internet (Ethernet or Wifi internet connection required)
 	// Will default to normal RTC setting routing if this fails
-	#define get_time_from_internet 1
+	#define get_time_from_internet 0
 	
 #endif
 
