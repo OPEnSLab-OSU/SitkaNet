@@ -91,7 +91,7 @@ void loop()
 	// // --- LoRa Hub Example ---
 
 	receive_bundle(&bndl, LORA);		// Read sensors, store data in sensor state struct
-	//print_bundle(&bndl);
+	print_bundle(&bndl);
 	log_bundle(&bndl, PUSHINGBOX);
 
 	additional_loop_checks();		// Miscellaneous checks

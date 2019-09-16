@@ -554,7 +554,7 @@
 
 	#if useHubTabID == 1	
 		// The hub defines tab ID regardless of bundle source
-		#define init_tab_id "HubSheet3" 	   // Defines tab if hub is defining tab instead of nodes
+		#define init_tab_id "Hub" 	   // Defines tab if hub is defining tab instead of nodes
 	#else 					
 		// Use bundle source and below prefix to define tab ID
 		#define init_tab_id ""		   // Used as a prefix if node is being used to define tab

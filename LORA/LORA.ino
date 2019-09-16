@@ -117,7 +117,6 @@ void loop()
 	log_bundle(&bndl, SDCARD, "savefile.csv");
 	send_bundle(&bndl, LORA);
 
-  //sleep_for(2, MINUTES, STANDBY);
   setRTCAlarm_Relative(0, 5, 0);
   sleep();
 

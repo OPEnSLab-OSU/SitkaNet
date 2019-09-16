@@ -96,7 +96,7 @@
 // ================================================================ 
 // ===                  DATA LOGGING PLATFORMS                  === 
 // ================================================================
-#define is_pushingbox 0		// 1 to enable PushingBox  
+#define is_pushingbox 1		// 1 to enable PushingBox  
 
 
 // --- RTC Options ---
@@ -536,14 +536,16 @@
 	// Google Spreadsheet ID
 	// (found betweeen the "docs.google.com/spreadsheets/d/" and "/edit..." in the URL; looks like random string of characters)
 	// #define init_spreadsheet_id "1Hv2oME5sjumUXv36GtFV1Q7I83xnXu-f-ZrxUNsXS_U"  // Luke Test Sheet
-	#define init_spreadsheet_id "1FPwr8Q8QyP6-VbW1lp_fyFne38dbWQUhLGtNW7gVmMk"  // Luke Test Sheet 2
+	// #define init_spreadsheet_id "1FPwr8Q8QyP6-VbW1lp_fyFne38dbWQUhLGtNW7gVmMk"  // Luke Test Sheet 2
 	// #define init_spreadsheet_id "1wMNszrEmPt2jN1ZYDNJhO5lJHm4WcMZhzP6ck5omEOU"  // Ghana Proto Sheet
+  #define init_spreadsheet_id "1PNAIIiopyat3VyDHAKsh-n3vx97BgR57mkQ_1nnTKgI"  // SitkaNet
+
 
 	// Required by PushingBox, specific to each scenario
 	// Does not always need to change with different spreadsheets, only different PushingBox accounts
 	// #define device_id "v7ECCEF7A460E57A" 	// Luke
-	#define device_id "v30C7C2EDE705157" 	// Luke Tests
-	// #define device_id "vBC42D81EEEB62D5" 	// Opens
+	//#define device_id "v30C7C2EDE705157" 	// Luke Tests
+	#define device_id "vBC42D81EEEB62D5" 	// Opens
 
 
 	// Google Spreadsheet Sheet/Tab. Sent as parameter to PushingBox/Google Scripts
@@ -556,7 +558,7 @@
 		#define init_tab_id "HubSheet3" 	   // Defines tab if hub is defining tab instead of nodes
 	#else 					
 		// Use bundle source and below prefix to define tab ID
-		#define init_tab_id "Test3_"		   // Used as a prefix if node is being used to define tab
+		#define init_tab_id ""		   // Used as a prefix if node is being used to define tab
 	#endif	
 
 
