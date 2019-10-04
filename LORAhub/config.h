@@ -39,12 +39,12 @@
 // ===                      SERIAL OPTIONS                      === 
 // ================================================================
 // --- Debugging --- 
-#define LOOM_DEBUG 0			// Set to 1 if you want Serial statements from various functions to print
+#define LOOM_DEBUG 1			// Set to 1 if you want Serial statements from various functions to print
 								// NOTE: Serial monitor must be opened for device to setup if this is enabled
 								//   Device will freeze if this in enabled and device does not get plugged into Serial
 								// LOOM_DEBUG_Print* are Serial prints that are removed if debugging is off
 
-#define dynamic_serial_output 0 // These only apply if LOOM_DEBUG is enabled
+#define dynamic_serial_output 1 // These only apply if LOOM_DEBUG is enabled
 								// 0 is standard operation 
 								//   - Serial monitor needs to start / be open for device to setup
 								//   - Serial (USB) can generally be detached after setup without issue 

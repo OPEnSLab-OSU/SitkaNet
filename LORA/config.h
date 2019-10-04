@@ -29,10 +29,10 @@
 // --- Device Identification --- 
 #define FAMILY 		"SITKA"		// Will usually be "LOOM", you can change this if you are setting up your own network
 #define FAMILY_NUM       0		// Specifies the subnet of the family that the device is on. 0 for elevated permissions (can communicate with any subnet), 1-9 for normal
-#define CHANNEL          3		// Channel to use. Set to 1-8 for channels A-H, respectively (on WiFi), LoRa can use 1-9. Alternatively can define to -1 to used advanced option INIT_INST
+#define CHANNEL          2		// Channel to use. Set to 1-8 for channels A-H, respectively (on WiFi), LoRa can use 1-9. Alternatively can define to -1 to used advanced option INIT_INST
 #define REQUEST_SETTINGS 0		// 1 to request dynamic channel settings (i.e. next available channel) from MaxMSP Channel Manager, 0 to not
 #define AUTO_NAME        0		// 1 to enable naming device based on configured settings (if not set manual name in advanced options)
-#define CUSTOM_NAME "GAVAN"	// This is only used if Auto_name is set to be 0
+#define CUSTOM_NAME "HARBOR"	// This is only used if Auto_name is set to be 0
 
 
 // ================================================================ 
@@ -44,7 +44,7 @@
 								//   Device will freeze if this in enabled and device does not get plugged into Serial
 								// LOOM_DEBUG_Print* are Serial prints that are removed if debugging is off
 
-#define dynamic_serial_output 0 // These only apply if LOOM_DEBUG is enabled
+#define dynamic_serial_output 1 // These only apply if LOOM_DEBUG is enabled
 								// 0 is standard operation 
 								//   - Serial monitor needs to start / be open for device to setup
 								//   - Serial (USB) can generally be detached after setup without issue 
@@ -440,7 +440,7 @@
 
 	#define RF95_FREQ      			915.0	// Hardware specific, Tx must match Rx
 
-	#define package_lora_rssi 		0		// 1 to add LoRa last RSSi to bundle build via package bundle; 0 to not
+	#define package_lora_rssi 		1		// 1 to add LoRa last RSSi to bundle build via package bundle; 0 to not
 
 
 
